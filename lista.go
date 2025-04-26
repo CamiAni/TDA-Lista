@@ -23,8 +23,8 @@ type Lista[T any] interface {
 	// Devuelve la cantidad de elementos de la lista
 	Largo() int
 
-	//
-	//	Iterar(visitar func(t) bool)
+	//Devuelve True si recorrió todos los elementos, False en caso contrario
+	Iterar(visitar func(T) bool)
 
 	// Iterador() Crea un iterador para la lista
 	Iterador() IteradorLista[T]
@@ -38,6 +38,7 @@ type IteradorLista[T any] interface {
 	// HaySiguiente devuelve true si hay un elemento para usar, false en caso contrario
 	// devuelve false cuando VerActual = nil
  	HaySiguiente() bool
+
 
 	//Siguiente pasa al siguiente elemento de la lista
 	Siguiente()
