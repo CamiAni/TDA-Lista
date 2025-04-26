@@ -19,41 +19,187 @@ type iteradorExterno[T any] struct {
 	listaIterar *listaEnlazada[T]
 }
 
-// func CrearListaEnlazada[T any]() Lista[T]
+func CrearListaEnlazada[T any]() Lista[T] {
+	return &listaEnlazada[T]{}
+}
 
-//func (lista *listaEnlazada[T]) EstaVacia() bool
+func (lista *listaEnlazada[T]) EstaVacia() bool {
+	return lista.largo == 0
+}
 
-//func (lista *listaEnlazada[T]) VerPrimero() T
+func (lista *listaEnlazada[T]) VerPrimero() T {
+	if lista.EstaVacia() {
+		panic("La lista esta vacia")
+	}
 
-//func (lista *listaEnlazada[T]) VerUltimo() T
+	return lista.primero.dato
+}
 
-//func (lista *listaEnlazada[T]) Largo() int
+func (lista *listaEnlazada[T]) VerUltimo() T {
+	if lista.EstaVacia() {
+		panic("La lista esta vacia")
+	}
 
-//func (lista *listaEnlazada[T]) BorrarPrimero() T
+	return lista.ultimo.dato
+}
 
-//func crearNodo[T any](datoNuevo T) *nodoLista[T]
+func (lista *listaEnlazada[T]) Largo() int {
+	return lista.largo
+}
 
-//func (lista *listaEnlazada[T]) InsertarPrimero(dato T)
+func (lista *listaEnlazada[T]) BorrarPrimero() T {
+	if lista.EstaVacia() {
+		panic("La lista esta vacia")
+	}
 
-//func (lista *listaEnlazada[T]) InsertarUltimo(dato T)
+	borrado := lista.primero.dato
 
-// ITERADOR INTERNO
+	if lista.Largo() == 1 {
+		lista.ultimo = nil
+	}
 
-//func (lista *Lista[T]) Iterar(visitar func(T) bool)
+	lista.primero = lista.primero.siguiente
+	lista.largo--
 
-// ITERADOR EXTERNO
+	return borrado
+}
 
-//func Crear iterador (en realidad es la de abajo)
-//func (lista *listaEnlazada[T]) Iterador IteradorLista[T]
+func crearNodo[T any](datoNuevo T) *nodoLista[T] {
+	return &nodoLista[T]{dato: datoNuevo, siguiente: nil}
+}
 
-// PRIMITIVAS DE ITERADOR:
+func (lista *listaEnlazada[T]) InsertarPrimero(dato T) {
+	nuevoNodo := crearNodo(dato)
 
-//func (iterador *IteradorLista[T]) VerActual() T
+	nuevoNodo.siguiente = lista.primero
+	lista.primero = nuevoNodo
 
-//func (iterador *IteradorLista[T]) HaySiguiente() bool
+	if lista.EstaVacia() {
+		lista.ultimo = nuevoNodo
+	}
 
-//func (iterador *IteradorLista[T]) Siguiente()
+	lista.largo++
+}
 
-//func (iterador *IteradorLista[T]) Insertar()
+func (lista *listaEnlazada[T]) InsertarUltimo(dato T) {
+	nuevoNodo := crearNodo(dato)
 
-//func (iterador *IteradorLista[T]) Borrar() T
+	lista.ultimo = nuevoNodo
+
+	if lista.EstaVacia() {
+		lista.primero = nuevoNodo
+	}
+
+	lista.largo++
+}
+
+func (lista *listaEnlazada[T]) Iterar(visitar func(T) bool) {
+	nodoActual := lista.primero
+
+	for nodoActual != nil {
+		if !visitar(nodoActual.dato) {
+			return
+		}
+
+		nodoActual = nodoActual.siguiente
+	}
+
+}
+
+func (lista *listaEnlazada[T]) Iterador() IteradorLista[T] {
+	return &iteradorExterno[T]{actual: lista.primero, anterior: nil, listaIterar: lista}
+}
+
+func (iterador *iteradorExterno[T]) HaySiguiente() bool {
+	return iterador.actual != nil
+}
+
+func (iterador *iteradorExterno[T]) VerActual() T {
+	if !iterador.HaySiguiente() {
+		panic("El iterador termino de iterar")
+	}
+
+	return iterador.actual.dato
+
+}
+
+func (iterador *iteradorExterno[T]) Siguiente() {
+	if !iterador.HaySiguiente() {
+		panic("El iterador termino de iterar")
+	}
+
+	iterador.anterior = iterador.actual
+	iterador.actual = iterador.actual.siguiente
+
+}
+
+func (iterador *iteradorExterno[T]) Insertar(dato T) {
+	nuevoNodo := crearNodo(dato)
+
+	//ORDENAR ESTA FUNCIÓN
+	nuevoNodo.siguiente = iterador.actual
+	iterador.actual = nuevoNodo
+
+	//caso vacia
+	if !iterador.HaySiguiente() && iterador.anterior == nil {
+
+		iterador.listaIterar.primero = nuevoNodo
+		iterador.listaIterar.ultimo = nuevoNodo
+
+		//caso si es primer elemento
+	} else if iterador.anterior == nil {
+
+		iterador.listaIterar.primero = nuevoNodo
+
+		//caso ultimo
+	} else if !iterador.HaySiguiente() {
+
+		iterador.anterior.siguiente = nuevoNodo
+		iterador.listaIterar.ultimo = nuevoNodo
+
+	} else {
+		iterador.anterior.siguiente = nuevoNodo
+	}
+
+	iterador.listaIterar.largo++
+
+}
+
+func (iterador *iteradorExterno[T]) Borrar() T {
+
+	//caso vacia
+	if !iterador.HaySiguiente() && iterador.anterior == nil {
+		panic("No se puede Borrar una lista vacia")
+
+		//caso de un solo elemento
+	}
+
+	borrado := iterador.actual.dato
+
+	if iterador.listaIterar.primero == iterador.listaIterar.ultimo {
+		iterador.actual = nil
+		iterador.listaIterar.primero = nil
+		iterador.listaIterar.ultimo = nil
+
+		//caso borrar primero
+	} else if iterador.anterior == nil {
+
+		iterador.listaIterar.primero = iterador.actual.siguiente
+		iterador.actual = iterador.actual.siguiente
+
+		//Caso ultimo
+	} else if iterador.actual.siguiente == nil {
+		iterador.actual = nil
+		iterador.anterior.siguiente = nil
+		iterador.listaIterar.ultimo = iterador.anterior
+
+		//medio
+	} else {
+		iterador.actual = iterador.actual.siguiente
+		iterador.anterior.siguiente = iterador.actual
+	}
+
+	iterador.listaIterar.largo--
+
+	return borrado
+}

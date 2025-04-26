@@ -23,7 +23,7 @@ type Lista[T any] interface {
 	// Devuelve la cantidad de elementos de la lista
 	Largo() int
 
-	//Devuelve True si recorrió todos los elementos, False en caso contrario
+	//Recorre los elementos de la lista y visita a la funcion
 	Iterar(visitar func(T) bool)
 
 	// Iterador() Crea un iterador para la lista
