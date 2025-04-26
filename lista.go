@@ -37,6 +37,7 @@ type IteradorLista[T any] interface {
 
 	// HaySiguiente devuelve true si hay un elemento para usar, false en caso contrario
 	// devuelve false cuando VerActual = nil
+
 	HaySiguiente() bool
 
 	//Siguiente pasa al siguiente elemento de la lista
