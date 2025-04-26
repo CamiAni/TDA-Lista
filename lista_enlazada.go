@@ -39,6 +39,8 @@ type iteradorExterno[T any] struct {
 
 // ITERADOR INTERNO
 
+//func (lista *Lista[T]) Iterar(visitar func(T) bool)
+
 // ITERADOR EXTERNO
 
 //func Crear iterador (en realidad es la de abajo)
