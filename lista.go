@@ -35,7 +35,6 @@ type IteradorLista[T any] interface {
 	// VerActual obtiene el valor en el cual estoy parado de la lista
 	VerActual() T
 
-	// HaySiguiente
 	HaySiguiente() bool
 
 	//Siguiente pasa al siguiente elemento de la lista
