@@ -84,11 +84,12 @@ func (lista *listaEnlazada[T]) InsertarPrimero(dato T) {
 func (lista *listaEnlazada[T]) InsertarUltimo(dato T) {
 	nuevoNodo := crearNodo(dato)
 
-	lista.ultimo = nuevoNodo
-
 	if lista.EstaVacia() {
 		lista.primero = nuevoNodo
+	} else {
+		lista.ultimo.siguiente = nuevoNodo
 	}
+	lista.ultimo = nuevoNodo
 
 	lista.largo++
 }
