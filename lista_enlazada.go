@@ -15,7 +15,6 @@ type iteradorExterno[T any] struct {
 	actual   *nodoLista[T]
 	anterior *nodoLista[T]
 
-	//Para acordarme (despues borrar comentario) : le pse listaItera para no confundir con lista al poner lista.alg
 	listaIterar *listaEnlazada[T]
 }
 
@@ -128,39 +127,33 @@ func (iterador *iteradorExterno[T]) Siguiente() {
 	if !iterador.HaySiguiente() {
 		panic("El iterador termino de iterar")
 	}
-
 	iterador.anterior = iterador.actual
 	iterador.actual = iterador.actual.siguiente
-
 }
 
 func (iterador *iteradorExterno[T]) Insertar(dato T) {
 	nuevoNodo := crearNodo(dato)
 
-	//ORDENAR ESTA FUNCIÓN
-	nuevoNodo.siguiente = iterador.actual
-	iterador.actual = nuevoNodo
+	if iterador.anterior == nil {
 
-	//caso vacia
-	if !iterador.HaySiguiente() && iterador.anterior == nil {
-
-		iterador.listaIterar.primero = nuevoNodo
-		iterador.listaIterar.ultimo = nuevoNodo
-
-		//caso si es primer elemento
-	} else if iterador.anterior == nil {
-
+		nuevoNodo.siguiente = iterador.listaIterar.primero
 		iterador.listaIterar.primero = nuevoNodo
 
-		//caso ultimo
+		if iterador.listaIterar.ultimo == nil {
+			iterador.listaIterar.ultimo = nuevoNodo
+		}
+
 	} else if !iterador.HaySiguiente() {
 
 		iterador.anterior.siguiente = nuevoNodo
 		iterador.listaIterar.ultimo = nuevoNodo
-
 	} else {
+
+		nuevoNodo.siguiente = iterador.actual
 		iterador.anterior.siguiente = nuevoNodo
 	}
+
+	iterador.actual = nuevoNodo
 
 	iterador.listaIterar.largo++
 
@@ -168,11 +161,9 @@ func (iterador *iteradorExterno[T]) Insertar(dato T) {
 
 func (iterador *iteradorExterno[T]) Borrar() T {
 
-	//caso vacia
-	if !iterador.HaySiguiente() && iterador.anterior == nil {
-		panic("No se puede Borrar una lista vacia")
+	if !iterador.HaySiguiente() {
+		panic("El iterador termino de iterar")
 
-		//caso de un solo elemento
 	}
 
 	borrado := iterador.actual.dato
@@ -182,19 +173,16 @@ func (iterador *iteradorExterno[T]) Borrar() T {
 		iterador.listaIterar.primero = nil
 		iterador.listaIterar.ultimo = nil
 
-		//caso borrar primero
 	} else if iterador.anterior == nil {
 
 		iterador.listaIterar.primero = iterador.actual.siguiente
 		iterador.actual = iterador.actual.siguiente
 
-		//Caso ultimo
 	} else if iterador.actual.siguiente == nil {
-		iterador.actual = nil
 		iterador.anterior.siguiente = nil
 		iterador.listaIterar.ultimo = iterador.anterior
+		iterador.actual = nil
 
-		//medio
 	} else {
 		iterador.actual = iterador.actual.siguiente
 		iterador.anterior.siguiente = iterador.actual

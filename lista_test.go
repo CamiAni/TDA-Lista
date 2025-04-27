@@ -7,16 +7,14 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-//TEST PARA LISTA EN GENERAL
-
-func TestListaCreadaEstaVacia(t *testing.T){
+func TestListaCreadaEstaVacia(t *testing.T) {
 	lista := TDALista.CrearListaEnlazada[int]()
 
 	require.True(t, lista.EstaVacia(), "La lista debería estar vacía al crearse")
 	require.Equal(t, 0, lista.Largo())
 }
 
-func TestListsCreadaPanics(t *testing.T){
+func TestListsCreadaPanics(t *testing.T) {
 	lista := TDALista.CrearListaEnlazada[int]()
 	require.PanicsWithValue(t, "La lista esta vacia", func() {
 		lista.BorrarPrimero()
@@ -32,7 +30,7 @@ func TestListsCreadaPanics(t *testing.T){
 
 }
 
-func TestInsertarPrimeroLista(t *testing.T){
+func TestInsertarPrimeroLista(t *testing.T) {
 	lista := TDALista.CrearListaEnlazada[int]()
 
 	require.True(t, lista.EstaVacia(), "La lista debería estar vacía al crearse")
@@ -93,11 +91,9 @@ func TestInsertarPrimeroLista(t *testing.T){
 		lista.BorrarPrimero()
 	}, "Borrar una lista vacia deberia causar panic")
 
-
-
 }
 
-func TestInsertarUltimoLista(t *testing.T){
+func TestInsertarUltimoLista(t *testing.T) {
 	lista := TDALista.CrearListaEnlazada[int]()
 
 	require.True(t, lista.EstaVacia(), "La lista debería estar vacía al crearse")
@@ -159,7 +155,7 @@ func TestInsertarUltimoLista(t *testing.T){
 	}, "Borrar una lista vacia deberia causar panic")
 }
 
-func TestVaciarLista(t *testing.T){
+func TestVaciarLista(t *testing.T) {
 	lista := TDALista.CrearListaEnlazada[int]()
 
 	require.True(t, lista.EstaVacia(), "La lista deberia estar vacia al crearse")
@@ -170,7 +166,7 @@ func TestVaciarLista(t *testing.T){
 	require.Equal(t, 1, lista.VerPrimero())
 	require.Equal(t, 1, lista.VerUltimo())
 	require.Equal(t, 1, lista.Largo())
-	
+
 	lista.InsertarPrimero(2)
 	require.False(t, lista.EstaVacia(), "La lista no deberia estar vacia luego de agregar un elemento")
 	require.Equal(t, 2, lista.VerPrimero())
@@ -238,7 +234,7 @@ func TestVaciarLista(t *testing.T){
 
 }
 
-func TestListarEnteros(t *testing.T){
+func TestListarEnteros(t *testing.T) {
 	lista := TDALista.CrearListaEnlazada[int]()
 
 	require.True(t, lista.EstaVacia(), "La lista debería estar vacía al crearse")
@@ -275,10 +271,10 @@ func TestListarEnteros(t *testing.T){
 	require.PanicsWithValue(t, "La lista esta vacia", func() {
 		lista.BorrarPrimero()
 	}, "Borrar una lista vacia deberia causar panic")
-	
+
 }
 
-func TestListarStrings(t *testing.T){
+func TestListarStrings(t *testing.T) {
 	lista := TDALista.CrearListaEnlazada[string]()
 
 	require.True(t, lista.EstaVacia(), "La lista debería estar vacía al crearse")
@@ -317,13 +313,13 @@ func TestListarStrings(t *testing.T){
 	}, "Borrar una lista vacia deberia causar panic")
 }
 
-func TestListarMuchosElementos(t *testing.T){
+func TestListarMuchosElementos(t *testing.T) {
 	lista := TDALista.CrearListaEnlazada[int]()
 
 	const n = 10000
 	require.True(t, lista.EstaVacia(), "La lista deberia estar vacia al crearse")
 	require.Equal(t, 0, lista.Largo())
-	for i:= 0; i < n; i++ {
+	for i := 0; i < n; i++ {
 		lista.InsertarPrimero(i)
 		require.False(t, lista.EstaVacia(), "La lista no deberia estar vacia luego de agregar un elemento")
 		require.Equal(t, i, lista.VerPrimero())
@@ -334,7 +330,7 @@ func TestListarMuchosElementos(t *testing.T){
 	require.Equal(t, n, lista.Largo())
 	require.False(t, lista.EstaVacia(), "La lista no deberia estar vacia luego de agregar un elemento")
 
-	for i:= lista.Largo()-1; i > 0; i-- {
+	for i := lista.Largo() - 1; i > 0; i-- {
 		require.False(t, lista.EstaVacia(), "La lista no deberia estar vacia luego de agregar un elemento")
 		require.Equal(t, i, lista.BorrarPrimero())
 		require.Equal(t, i-1, lista.VerPrimero())
@@ -357,7 +353,7 @@ func TestListarMuchosElementos(t *testing.T){
 
 	require.True(t, lista.EstaVacia(), "La lista deberia estar vacia al crearse")
 	require.Equal(t, 0, lista.Largo())
-	for i:= 0; i < n; i++ {
+	for i := 0; i < n; i++ {
 		lista.InsertarUltimo(i)
 		require.False(t, lista.EstaVacia(), "La lista no deberia estar vacia luego de agregar un elemento")
 		require.Equal(t, 0, lista.VerPrimero())
@@ -368,7 +364,7 @@ func TestListarMuchosElementos(t *testing.T){
 	require.Equal(t, n, lista.Largo())
 	require.False(t, lista.EstaVacia(), "La lista no deberia estar vacia luego de agregar un elemento")
 
-	for i:= 0; i < n-1; i++ {
+	for i := 0; i < n-1; i++ {
 		require.False(t, lista.EstaVacia(), "La lista no deberia estar vacia luego de agregar un elemento")
 		require.Equal(t, i, lista.BorrarPrimero())
 		require.Equal(t, i+1, lista.VerPrimero())
@@ -394,9 +390,9 @@ func TestListarMuchosElementos(t *testing.T){
 
 }
 
-func TestInsertarYBorrarIntercalado(t *testing.T){
+func TestInsertarYBorrarIntercalado(t *testing.T) {
 	lista := TDALista.CrearListaEnlazada[int]()
-	
+
 	require.True(t, lista.EstaVacia(), "La lista debería estar vacía al crearse")
 	require.Equal(t, 0, lista.Largo())
 	lista.InsertarPrimero(1)
@@ -454,10 +450,10 @@ func TestInsertarYBorrarIntercalado(t *testing.T){
 	require.Equal(t, 1, lista.Largo())
 
 	require.Equal(t, 2, lista.BorrarPrimero())
-	
+
 	require.True(t, lista.EstaVacia(), "La lista debería estar vacía si su largo es 0")
 	require.Equal(t, 0, lista.Largo())
-	
+
 	require.PanicsWithValue(t, "La lista esta vacia", func() {
 		lista.VerPrimero()
 	}, "Ver primero en una lista vacía debería causar panic")
@@ -470,23 +466,21 @@ func TestInsertarYBorrarIntercalado(t *testing.T){
 		lista.BorrarPrimero()
 	}, "Borrar una lista vacia deberia causar panic")
 
-
 }
 
-//TEST PARA ITERADORES:
-
-//EXTERNO
-
 func TestIteradorExtCreado(t *testing.T) {
-    lista := TDALista.CrearListaEnlazada[int]()
-    iter := lista.Iterador()
+	lista := TDALista.CrearListaEnlazada[int]()
+	iter := lista.Iterador()
 
-    require.False(t, iter.HaySiguiente(), "HaySiguiente debe ser false en una lista vacía")
+	require.False(t, iter.HaySiguiente(), "HaySiguiente debe ser false en una lista vacía")
 
 	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
-		iter.Siguiente()
-	}, "El iterador debe causar un pánico al intentar avanzar más allá del final de la lista")
+		iter.VerActual()
+	}, "VerActual en un iterador vacío debería causar panic")
 
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter.Borrar()
+	}, "Borrar en un iterador vacío debería causar panic")
 }
 
 func TestIterarExtIterarListaVacia(t *testing.T) {
@@ -495,17 +489,14 @@ func TestIterarExtIterarListaVacia(t *testing.T) {
 
 	require.False(t, iter.HaySiguiente(), "El iterador debería estar vacío en una lista recién creada")
 
-	require.PanicsWithValue(t, "El iterador termino", func() {
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
 		iter.VerActual()
 	}, "VerActual en un iterador vacío debería causar panic")
 
-	require.PanicsWithValue(t, "El iterador termino", func() {
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
 		iter.Borrar()
 	}, "Borrar en un iterador vacío debería causar panic")
 
-	
-	iter.Siguiente()
-	require.False(t, iter.HaySiguiente(), "Siguiente en un iterador vacío no debería cambiar nada")
 }
 
 func TestIteradorExtInsertarYBorrarUno(t *testing.T) {
@@ -534,12 +525,10 @@ func TestIteradorExtInsertarPrimero(t *testing.T) {
 	require.Equal(t, 10, iter.VerActual(), "El actual debería ser el primer elemento insertado")
 	require.Equal(t, 1, lista.Largo(), "La lista debería tener un elemento tras la primera inserción")
 
-	
 	iter.Insertar(20)
 	require.Equal(t, 20, iter.VerActual(), "El actual debería ser el último insertado (nuevo primero)")
 	require.Equal(t, 2, lista.Largo(), "La lista debería tener dos elementos después de la segunda inserción")
 
-	
 	elementos := []int{}
 	iter2 := lista.Iterador()
 	for iter2.HaySiguiente() {
@@ -547,12 +536,20 @@ func TestIteradorExtInsertarPrimero(t *testing.T) {
 		iter2.Siguiente()
 	}
 
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.VerActual()
+	}, "VerActual en un iterador vacío debería causar panic")
+
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.Borrar()
+	}, "Borrar en un iterador vacío debería causar panic")
+
 	require.Equal(t, []int{20, 10}, elementos, "Los elementos deberían estar en orden de inserción al principio")
 }
 
 func TestIteradorExtInsertarUltimo(t *testing.T) {
 	lista := TDALista.CrearListaEnlazada[int]()
-	
+
 	lista.InsertarPrimero(10)
 	lista.InsertarUltimo(20)
 	lista.InsertarUltimo(30)
@@ -574,6 +571,13 @@ func TestIteradorExtInsertarUltimo(t *testing.T) {
 		iter2.Siguiente()
 	}
 
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.VerActual()
+	}, "VerActual en un iterador vacío debería causar panic")
+
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.Borrar()
+	}, "Borrar en un iterador vacío debería causar panic")
 
 	require.Equal(t, []int{10, 20, 30, 40}, elementos, "Los elementos deberían estar en el orden correcto después de insertar al final")
 }
@@ -583,7 +587,6 @@ func TestIteradorExtInsertarMedio(t *testing.T) {
 
 	lista.InsertarUltimo(10)
 	lista.InsertarUltimo(30)
-
 
 	iter := lista.Iterador()
 
@@ -610,6 +613,14 @@ func TestIteradorExtInsertarMedio(t *testing.T) {
 		iter2.Siguiente()
 	}
 
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.VerActual()
+	}, "VerActual en un iterador vacío debería causar panic")
+
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.Borrar()
+	}, "Borrar en un iterador vacío debería causar panic")
+
 	require.Equal(t, []int{10, 20, 30}, elementos, "El orden de los elementos debería ser 10, 20, 30")
 }
 
@@ -628,10 +639,17 @@ func TestIteradorExtIteracionCompleta(t *testing.T) {
 		obtenidos = append(obtenidos, iter.VerActual())
 		iter.Siguiente()
 	}
-	
+
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter.VerActual()
+	}, "VerActual en un iterador vacío debería causar panic")
+
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter.Borrar()
+	}, "Borrar en un iterador vacío debería causar panic")
+
 	require.Equal(t, elementosEsperados, obtenidos, "La lista debería ser recorrida en el orden de inserción")
 	require.False(t, iter.HaySiguiente(), "El iterador debería estar al final después de recorrer toda la lista")
-
 
 }
 
@@ -662,6 +680,13 @@ func TestIteradorExtBorrarPrimerElemento(t *testing.T) {
 		iter2.Siguiente()
 	}
 
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.VerActual()
+	}, "VerActual en un iterador vacío debería causar panic")
+
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.Borrar()
+	}, "Borrar en un iterador vacío debería causar panic")
 
 	require.Equal(t, []int{20, 30}, elementosRestantes, "La lista debería contener los elementos restantes en orden")
 }
@@ -692,7 +717,13 @@ func TestIteradorExtBorrarUltimoElemento(t *testing.T) {
 	require.False(t, iter.HaySiguiente(), "No debería haber más elementos después de borrar el último")
 	require.Equal(t, 2, lista.Largo(), "La lista debería tener dos elementos después de borrar el último")
 
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter.VerActual()
+	}, "VerActual en un iterador vacío debería causar panic")
 
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter.Borrar()
+	}, "Borrar en un iterador vacío debería causar panic")
 
 	iter2 := lista.Iterador()
 	elementosRestantes := []int{}
@@ -701,6 +732,13 @@ func TestIteradorExtBorrarUltimoElemento(t *testing.T) {
 		iter2.Siguiente()
 	}
 
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.VerActual()
+	}, "VerActual en un iterador vacío debería causar panic")
+
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.Borrar()
+	}, "Borrar en un iterador vacío debería causar panic")
 
 	require.Equal(t, []int{1, 2}, elementosRestantes, "La lista debería contener los elementos restantes en orden")
 }
@@ -738,6 +776,14 @@ func TestIteradorExtBorrarElementoMedio(t *testing.T) {
 		iter2.Siguiente()
 	}
 
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.VerActual()
+	}, "VerActual en un iterador vacío debería causar panic")
+
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.Borrar()
+	}, "Borrar en un iterador vacío debería causar panic")
+
 	require.Equal(t, []int{1, 3, 4}, elementosRestantes, "La lista debería contener los elementos correctos después del borrado")
 }
 
@@ -747,14 +793,18 @@ func TestIteradorExtOperacionesCombinadasInt(t *testing.T) {
 	iter := lista.Iterador()
 
 	iter.Insertar(10)
+	require.True(t, iter.HaySiguiente(), "Debería haber siguiente antes de VerActual()")
 	require.Equal(t, 10, iter.VerActual())
 	iter.Insertar(20)
+	require.True(t, iter.HaySiguiente(), "Debería haber siguiente antes de VerActual()")
 	require.Equal(t, 20, iter.VerActual())
 	iter.Insertar(30)
+	require.True(t, iter.HaySiguiente(), "Debería haber siguiente antes de VerActual()")
 	require.Equal(t, 30, iter.VerActual())
 	require.Equal(t, 3, lista.Largo(), "La lista debería tener tres elementos")
 	valorBorrado := iter.Borrar()
 	require.Equal(t, 30, valorBorrado, "Debería borrarse el 30")
+	require.True(t, iter.HaySiguiente(), "Debería haber siguiente antes de VerActual()")
 	require.Equal(t, 20, iter.VerActual(), "Ahora el actual debería ser 20")
 
 	iter.Siguiente()
@@ -767,8 +817,15 @@ func TestIteradorExtOperacionesCombinadasInt(t *testing.T) {
 
 	valorBorrado = iter.Borrar()
 	require.Equal(t, 10, valorBorrado, "Se debería haber borrado el 10")
-	require.Equal(t, 15, iter.VerActual(), "Ahora debería estar en 15")
-	require.Equal(t, 2, lista.Largo(), "La lista debería tener dos elementos ahora")
+	require.False(t, iter.HaySiguiente(), "No debería haber siguiente luego de borrar el ultimo")
+
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter.VerActual()
+	}, "VerActual en un iterador vacío debería causar panic")
+
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter.Borrar()
+	}, "Borrar en un iterador vacío debería causar panic")
 
 	iter2 := lista.Iterador()
 	var elementos []int
@@ -777,7 +834,15 @@ func TestIteradorExtOperacionesCombinadasInt(t *testing.T) {
 		iter2.Siguiente()
 	}
 
-	require.Equal(t, []int{20, 15}, elementos, "La lista debería terminar con [15]")
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.VerActual()
+	}, "VerActual en un iterador vacío debería causar panic")
+
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.Borrar()
+	}, "Borrar en un iterador vacío debería causar panic")
+
+	require.Equal(t, []int{20, 15}, elementos, "La lista debería terminar con [20, 15]")
 }
 
 func TestIteradorExtOperacionesCombinadasString(t *testing.T) {
@@ -819,6 +884,14 @@ func TestIteradorExtOperacionesCombinadasString(t *testing.T) {
 		iter2.Siguiente()
 	}
 
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.VerActual()
+	}, "VerActual en un iterador vacío debería causar panic")
+
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
+		iter2.Borrar()
+	}, "Borrar en un iterador vacío debería causar panic")
+
 	require.Equal(t, []string{"pez", "gato"}, elementos, "La lista final debería ser ['pez', 'gato']")
 }
 
@@ -833,15 +906,15 @@ func TestIteradorExtVolumenInt(t *testing.T) {
 	}
 	require.Equal(t, n, lista.Largo(), "La lista debería tener n elementos")
 	iter2 := lista.Iterador()
-	for i := 0; iter2.HaySiguiente(); i++ {
+	for i := n - 1; iter2.HaySiguiente() == true; i-- {
 		require.Equal(t, i, iter2.VerActual(), "El valor actual debería ser el índice durante la iteración")
 		iter2.Siguiente()
 	}
-	require.PanicsWithValue(t, "El iterador termino", func() {
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
 		iter2.VerActual()
 	}, "VerActual en un iterador vacío debería causar panic")
 
-	require.PanicsWithValue(t, "El iterador termino", func() {
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
 		iter2.Borrar()
 	}, "Borrar en un iterador vacío debería causar panic")
 
@@ -849,17 +922,16 @@ func TestIteradorExtVolumenInt(t *testing.T) {
 		iter.Borrar()
 	}
 
-	require.PanicsWithValue(t, "El iterador termino", func() {
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
 		iter.VerActual()
 	}, "VerActual en un iterador vacío debería causar panic")
 
-	require.PanicsWithValue(t, "El iterador termino", func() {
+	require.PanicsWithValue(t, "El iterador termino de iterar", func() {
 		iter.Borrar()
 	}, "Borrar en un iterador vacío debería causar panic")
 
 	require.Equal(t, 0, lista.Largo(), "La lista debería estar vacía después de borrar todos los elementos")
 }
-//INTERNO
 
 func TestIterarIntIterarListaVacia(t *testing.T) {
 	lista := TDALista.CrearListaEnlazada[int]()
@@ -915,7 +987,7 @@ func TestIterarIntIterarConCorte(t *testing.T) {
 	var result []int
 	lista.Iterar(func(valor int) bool {
 		result = append(result, valor)
-		return valor != 2 // Cortar cuando el valor sea 2
+		return valor != 2
 	})
 
 	require.Equal(t, []int{3, 2}, result, "La iteración debería detenerse cuando se encuentra el valor 2")
